@@ -3,13 +3,13 @@ provider "aws"{
 }
 
 resource "aws_vpc" "spoke_minecraft" {
-    cidr_block = "10.10.0.0/16"
+    cidr_block = "10.0.0.0/16"
 
 }
 
 resource "aws_subnet" "spoke_minecraft" {
     vpc_id = aws_vpc.spoke_minecraft.id
-    cidr_block = "10.10.1.0/24"
+    cidr_block = "10.0.1.0/24"
 
 }
 
@@ -38,7 +38,7 @@ resource "aws_security_group" "allow_all" {
 
 resource "aws_network_interface" "minecraft_eni" {
     subnet_id   = aws_subnet.spoke_minecraft.id
-    private_ips = ["10.10.1.100"]
+    private_ips = ["10.0.1.100"]
     security_groups = [aws_security_group.allow_all.id]
 
 }
@@ -68,7 +68,7 @@ resource "aws_route_table" "main" {
   }
 
   route {
-    cidr_block ="10.10.0.0/16"
+    cidr_block ="10.0.0.0/16"
     gateway_id = "local"
   }
 
