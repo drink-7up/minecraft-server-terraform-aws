@@ -4,15 +4,12 @@ provider "aws"{
 
 resource "aws_vpc" "spoke_minecraft" {
     cidr_block = var.vpc_network
-
 }
 
 resource "aws_subnet" "spoke_minecraft" {
     vpc_id = aws_vpc.spoke_minecraft.id
     cidr_block = var.minecraft_subnet
-
 }
-
 
 resource "aws_security_group" "allow_all" {
     name = "allow_all"
@@ -40,18 +37,15 @@ resource "aws_network_interface" "minecraft_eni" {
     subnet_id   = aws_subnet.spoke_minecraft.id
     private_ips = ["10.0.1.100"]
     security_groups = [aws_security_group.allow_all.id]
-
 }
 
 resource "aws_internet_gateway" "minecraft_gw" {
   vpc_id = aws_vpc.spoke_minecraft.id
-
 }
 
 resource "aws_eip" "eip_manager" {
   instance = aws_instance.minecraft_server.id
   domain = "vpc"
-  
 }
 
 resource "aws_eip_association" "eip_assoc" {
@@ -71,7 +65,6 @@ resource "aws_route_table" "main" {
     cidr_block =var.vpc_network
     gateway_id = "local"
   }
-
 }
 
 resource "aws_main_route_table_association" "a" {
@@ -134,5 +127,4 @@ resource "aws_instance" "minecraft_server" {
 
     # End script
     EOL
-
 }
