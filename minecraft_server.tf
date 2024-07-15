@@ -3,13 +3,13 @@ provider "aws"{
 }
 
 resource "aws_vpc" "spoke_minecraft" {
-    cidr_block = "10.0.0.0/16"
+    cidr_block = var.vpc_network
 
 }
 
 resource "aws_subnet" "spoke_minecraft" {
     vpc_id = aws_vpc.spoke_minecraft.id
-    cidr_block = "10.0.1.0/24"
+    cidr_block = var.minecraft_subnet
 
 }
 
@@ -68,7 +68,7 @@ resource "aws_route_table" "main" {
   }
 
   route {
-    cidr_block ="10.0.0.0/16"
+    cidr_block =var.vpc_network
     gateway_id = "local"
   }
 
